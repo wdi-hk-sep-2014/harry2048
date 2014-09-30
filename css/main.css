@@ -1,4 +1,11 @@
+@font-face {
+  font-family: "Clear Sans";
+  src: url("/fonts/ClearSans-Bold.ttf");
+}
+
 body {
+  background: #faf8ef;
+  font-family: "Clear Sans";
 }
 
 .cell {
