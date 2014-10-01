@@ -29,6 +29,11 @@ generateTile = (board) ->
 
   console.log "generate tile"
 
+showBoard = (board) ->
+  for row in [0..3]
+    for col in [0..3]
+      $(".r#{row}.c#{col} > div").html(board[row][col])
+
 printArray = (array) ->
   console.log "-- Start --"
   for row in array
@@ -40,3 +45,4 @@ $ ->
   generateTile(newBoard)
   generateTile(newBoard)
   printArray(newBoard)
+  showBoard(newBoard)
