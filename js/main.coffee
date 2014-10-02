@@ -80,12 +80,12 @@ $ ->
   showBoard(@board)
 
   $('body').keydown (e) =>
-    e.preventDefault()
 
     key = e.which
     keys = [37..40]
 
     if key in keys
+      e.preventDefault()
       # continue the game
       console.log "key: ", key
       direction = switch key
