@@ -34,8 +34,9 @@ move = (board, direction) ->
   for i in [0..3]
     if direction is 'right'
       row = getRow(i, board)
-      mergeCells(row, direction)
-      collapseCells()
+      row = mergeCells(row, direction)
+      row = collapseCells(row, direction)
+      console.log row
 
 getRow = (r, board) ->
   [board[r][0], board[r][1], board[r][2], board[r][3]]
@@ -52,11 +53,14 @@ mergeCells = (row, direction) ->
         else if row[b] isnt 0 then break
   row
 
-# console.log mergeCells [2, 2, 2, 0], 'right'
-console.log mergeCells [4, 0, 0, 4], 'right'
-
-collapseCells = ->
-  ''
+collapseCells = (row, direction) ->
+  # Remove `0`
+  row = row.filter (x) -> x isnt 0
+  # Adding `0`
+  if direction is 'right'
+    while row.length < 4
+      row.unshift 0
+  row
 
 showBoard = (board) ->
   for row in [0..3]
