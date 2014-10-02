@@ -29,6 +29,35 @@ generateTile = (board) ->
 
   console.log "generate tile"
 
+move = (board, direction) ->
+
+  for i in [0..3]
+    if direction is 'right'
+      row = getRow(i, board)
+      mergeCells(row, direction)
+      collapseCells()
+
+getRow = (r, board) ->
+  [board[r][0], board[r][1], board[r][2], board[r][3]]
+
+mergeCells = (row, direction) ->
+  if direction is 'right'
+    for a in [3...0]
+      for b in [a-1..0]
+        if row[a] is 0 then break
+        else if row[a] == row[b]
+          row[a] *= 2
+          row[b] = 0
+          break
+        else if row[b] isnt 0 then break
+  row
+
+# console.log mergeCells [2, 2, 2, 0], 'right'
+console.log mergeCells [4, 0, 0, 4], 'right'
+
+collapseCells = ->
+  ''
+
 showBoard = (board) ->
   for row in [0..3]
     for col in [0..3]
@@ -41,8 +70,34 @@ printArray = (array) ->
   console.log "--  End  --"
 
 $ ->
-  newBoard = buildBoard()
-  generateTile(newBoard)
-  generateTile(newBoard)
-  printArray(newBoard)
-  showBoard(newBoard)
+  @board = buildBoard()
+  generateTile(@board)
+  generateTile(@board)
+  showBoard(@board)
+
+  $('body').keydown (e) =>
+    e.preventDefault()
+
+    key = e.which
+    keys = [37..40]
+
+    if key in keys
+      # continue the game
+      console.log "key: ", key
+      direction = switch key
+        when 37 then 'left'
+        when 38 then 'up'
+        when 39 then 'right'
+        when 40 then 'down'
+
+      # try moving
+      move(@board, direction)
+      # check the move validity
+
+    else
+      # do nothing
+
+
+
+
+
