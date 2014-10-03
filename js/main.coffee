@@ -122,10 +122,28 @@ isGameOver = (board) ->
 showBoard = (board) ->
   for row in [0..3]
     for col in [0..3]
+      $(".r#{row}.c#{col} img").remove()
       if board[row][col] is 0
         $(".r#{row}.c#{col} > div").html('')
+        $(".r#{row}.c#{col}").css('background-color', 'rgba(238, 238, 218, 0.35)')
       else
         $(".r#{row}.c#{col} > div").html(board[row][col])
+        powerOf2 = Math.log(board[row][col]) / Math.log(2)
+        $(".r#{row}.c#{col}").css(
+          'background-color',
+          'rgba(40, 40, ' + (55 + Math.floor(200.0 * powerOf2 / 10.0)) + ', 1.0)'
+        )
+        for i in [1..powerOf2]
+          harrys = [
+            'http://t1.gstatic.com/images?q=tbn:ANd9GcRc85uYJ6eMK2o028Tsz3P6_qbjIA3psTM3rfrgnvBudrFVtSpG4w',
+            'https://avatars0.githubusercontent.com/u/1784995?v=2&s=460',
+            'https://ga-core.s3.amazonaws.com/production/uploads/instructor/image/2019/thumb_HarryNgSquare.png',
+            'http://images.ak.instagram.com/profiles/profile_48755117_75sq_1335613485.jpg'
+          ]
+          harrySrc = harrys[Math.floor(Math.random() * harrys.length)]
+          $(".r#{row}.c#{col}").append(
+            $("<img src=\"#{harrySrc}\">")
+              .css({width: 30, height: 30}))
 
 printArray = (array) ->
   console.log "-- Start --"
