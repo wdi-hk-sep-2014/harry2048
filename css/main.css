@@ -27,8 +27,11 @@ body {
   margin: 7px;
   width: 100px;
   height: 100px;
+  position: relative;
 }
 
 .cell div {
-  margin-top: 28px;
+  position: absolute;
+  top: 28px;
+  width: 100%;
 }

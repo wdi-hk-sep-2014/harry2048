@@ -110,10 +110,10 @@ boardIsFull = (board) ->
   true
 
 noValidMoves = (board) ->
-  direction = 'right' # FIXME: handle other directions
-  newBoard = move(board, direction)
-  if moveIsValid(board, newBoard)
-    return false
+  for direction in ['up', 'down', 'left', 'right']
+    newBoard = move(board, direction)
+    if moveIsValid(board, newBoard)
+      return false
   true
 
 isGameOver = (board) ->
