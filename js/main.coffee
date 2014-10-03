@@ -68,6 +68,14 @@ collapseCells = (row, direction) ->
       row.unshift 0
   row
 
+moveIsValid = (originalBoard, newBoard) ->
+  for row in [0..3]
+    for col in [0..3]
+      if originalBoard[row][col] isnt newBoard[row][col]
+        return true
+
+  false
+
 showBoard = (board) ->
   for row in [0..3]
     for col in [0..3]
@@ -104,6 +112,10 @@ $ ->
       newBoard = move(@board, direction)
       printArray newBoard
       # check the move validity, by comparing the original and new board
+      if moveIsValid(@board, newBoard)
+        console.log "valid"
+      else
+        console.log "invalid"
 
     else
       # do nothing
