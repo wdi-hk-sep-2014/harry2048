@@ -114,6 +114,11 @@ $ ->
       # check the move validity, by comparing the original and new board
       if moveIsValid(@board, newBoard)
         console.log "valid"
+        @board = newBoard
+        # generate tile
+        generateTile(@board)
+        # show board
+        showBoard(@board)
       else
         console.log "invalid"
 
