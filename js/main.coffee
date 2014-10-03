@@ -26,7 +26,7 @@ generateTile = (board) ->
     board[row][column] = value
   else
     console.log 'generate infinitely'
-    # generateTile(board)
+    generateTile(board)
 
   console.log "generate tile"
 
@@ -34,48 +34,67 @@ move = (board, direction) ->
   newBoard = buildBoard()
 
   for i in [0..3]
-    if direction is 'right' or 'left'
+    if direction is 'right' or direction is 'left'
+    #OR: if direction in ['right', 'left']
       row = getRow(i, board)
       row = mergeCells(row, direction)
       row = collapseCells(row, direction)
       setRow(row, i, newBoard)
+    else if direction in ['down', 'up']
+      column = getColumn(i, board)
+      column = mergeCells(column, direction)
+      column = collapseCells(column, direction)
+      setColumn(column, i, newBoard)
 
   newBoard
 
 getRow = (r, board) ->
   [board[r][0], board[r][1], board[r][2], board[r][3]]
 
+getColumn = (c, board) ->
+  [board[0][c], board[1][c], board[2][c], board[3][c]]
+
 setRow = (row, index, board) ->
   board[index] = row
 
-mergeCells = (row, direction) ->
+setColumn = (column, index, board) ->
+  for i in [0..3]
+    board[i][index] = column[i]
 
-  merge = (row) ->
+mergeCells = (cells, direction) ->
+
+  merge = (cells) ->
     for a in [3...0]
       for b in [a-1..0]
-        if row[a] is 0 then break
-        else if row[a] == row[b]
-          row[a] *= 2
-          row[b] = 0
+        if cells[a] is 0 then break
+        else if cells[a] == cells[b]
+          cells[a] *= 2
+          cells[b] = 0
           break
-        else if row[b] isnt 0 then break
-    row
+        else if cells[b] isnt 0 then break
+    cells
 
-  if direction is 'right'
-    row = merge(row)
+  if direction in ['right', 'down']
+    cells = merge(cells)
   else if direction is 'left'
-    row = merge(row.reverse()).reverse()
+    cells = merge(cells.reverse()).reverse()
 
-  row
+  cells
 
-collapseCells = (row, direction) ->
+# console.log mergeCells [2, 2, 0, 4], 'left'
+
+collapseCells = (cells, direction) ->
   # Remove `0`
-  row = row.filter (x) -> x isnt 0
+  cells = cells.filter (x) -> x isnt 0
   # Adding `0`
-  if direction is 'right'
-    while row.length < 4
-      row.unshift 0
-  row
+  while cells.length < 4
+    if direction in ['right', 'down']
+      cells.unshift 0
+    else if direction is 'left'
+      cells.push 0
+  cells
+
+# console.log collapseCells [0, 8, 0, 0], 'right'
 
 moveIsValid = (originalBoard, newBoard) ->
   for row in [0..3]
