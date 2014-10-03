@@ -76,6 +76,22 @@ moveIsValid = (originalBoard, newBoard) ->
 
   false
 
+boardIsFull = (board) ->
+  for row in board
+    if 0 in row
+      return false
+  true
+
+noValidMoves = (board) ->
+  direction = 'right' # FIXME: handle other directions
+  newBoard = move(board, direction)
+  if moveIsValid(board, newBoard)
+    return false
+  true
+
+isGameOver = (board) ->
+  boardIsFull(board) and noValidMoves(board)
+
 showBoard = (board) ->
   for row in [0..3]
     for col in [0..3]
@@ -119,6 +135,9 @@ $ ->
         generateTile(@board)
         # show board
         showBoard(@board)
+        # check game lost
+        if isGameOver(@board)
+          console.log "YOU LOSE!"
       else
         console.log "invalid"
 
