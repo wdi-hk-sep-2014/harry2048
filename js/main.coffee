@@ -25,7 +25,8 @@ generateTile = (board) ->
   if board[row][column] is 0
     board[row][column] = value
   else
-    generateTile(board)
+    console.log 'generate infinitely'
+    # generateTile(board)
 
   console.log "generate tile"
 
@@ -33,7 +34,7 @@ move = (board, direction) ->
   newBoard = buildBoard()
 
   for i in [0..3]
-    if direction is 'right'
+    if direction is 'right' or 'left'
       row = getRow(i, board)
       row = mergeCells(row, direction)
       row = collapseCells(row, direction)
@@ -48,7 +49,8 @@ setRow = (row, index, board) ->
   board[index] = row
 
 mergeCells = (row, direction) ->
-  if direction is 'right'
+
+  merge = (row) ->
     for a in [3...0]
       for b in [a-1..0]
         if row[a] is 0 then break
@@ -57,6 +59,13 @@ mergeCells = (row, direction) ->
           row[b] = 0
           break
         else if row[b] isnt 0 then break
+    row
+
+  if direction is 'right'
+    row = merge(row)
+  else if direction is 'left'
+    row = merge(row.reverse()).reverse()
+
   row
 
 collapseCells = (row, direction) ->
@@ -95,7 +104,10 @@ isGameOver = (board) ->
 showBoard = (board) ->
   for row in [0..3]
     for col in [0..3]
-      $(".r#{row}.c#{col} > div").html(board[row][col])
+      if board[row][col] is 0
+        $(".r#{row}.c#{col} > div").html('')
+      else
+        $(".r#{row}.c#{col} > div").html(board[row][col])
 
 printArray = (array) ->
   console.log "-- Start --"
