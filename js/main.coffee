@@ -30,16 +30,22 @@ generateTile = (board) ->
   console.log "generate tile"
 
 move = (board, direction) ->
+  newBoard = buildBoard()
 
   for i in [0..3]
     if direction is 'right'
       row = getRow(i, board)
       row = mergeCells(row, direction)
       row = collapseCells(row, direction)
-      console.log row
+      setRow(row, i, newBoard)
+
+  newBoard
 
 getRow = (r, board) ->
   [board[r][0], board[r][1], board[r][2], board[r][3]]
+
+setRow = (row, index, board) ->
+  board[index] = row
 
 mergeCells = (row, direction) ->
   if direction is 'right'
@@ -95,8 +101,9 @@ $ ->
         when 40 then 'down'
 
       # try moving
-      move(@board, direction)
-      # check the move validity
+      newBoard = move(@board, direction)
+      printArray newBoard
+      # check the move validity, by comparing the original and new board
 
     else
       # do nothing
