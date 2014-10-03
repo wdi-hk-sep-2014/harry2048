@@ -34,8 +34,7 @@ move = (board, direction) ->
   newBoard = buildBoard()
 
   for i in [0..3]
-    if direction is 'right' or direction is 'left'
-    #OR: if direction in ['right', 'left']
+    if direction in ['right', 'left']
       row = getRow(i, board)
       row = mergeCells(row, direction)
       row = collapseCells(row, direction)
@@ -76,7 +75,7 @@ mergeCells = (cells, direction) ->
 
   if direction in ['right', 'down']
     cells = merge(cells)
-  else if direction is 'left'
+  else if direction in ['left', 'up']
     cells = merge(cells.reverse()).reverse()
 
   cells
@@ -90,7 +89,7 @@ collapseCells = (cells, direction) ->
   while cells.length < 4
     if direction in ['right', 'down']
       cells.unshift 0
-    else if direction is 'left'
+    else if direction in ['left', 'up']
       cells.push 0
   cells
 
